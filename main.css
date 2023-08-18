@@ -1,0 +1,14 @@
+* {
+    box-sizing: border-box;
+  }
+header {
+    font-size: 4vmin;
+    color: darkgrey;
+    letter-spacing: 1vmin;
+  }
+#board{
+    display: grid;
+    grid-template-columns: repeat(7, 10vmin);
+    grid-template-rows: repeat(6, 10vmin);
+    gap: 1vmin;
+}
