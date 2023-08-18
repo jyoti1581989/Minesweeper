@@ -17,8 +17,6 @@
             - If the cell has mine then ignore.
 
 
-
-
 Click events
     1) use indices of tiles(figure out a way to find it) clicked to find value in the grid array.
     2) If value is number(except zero) then reveal that cell
