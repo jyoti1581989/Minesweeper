@@ -12,7 +12,8 @@
 
 
 	/*----- event listeners -----*/
-
+  //  let boardCells = getElementById("board");
+  //  boardCells.addEventListener(click,handleClick);
 
 
   /*------Class----------*/
@@ -37,6 +38,8 @@
     mineReveled(){
       return this.isRevealed;
     }
+
+     //Calculate mine count in neighboring cells
     
     adjMineCount(){
       let neighbors = [];
@@ -58,23 +61,24 @@
        return this.adjMineCount = count;
         
       })
-    }           
+      console.log(count)
+    }  
+      // set mine count into the cell 
 
-     setMinesCount(){
-      let cnt = this.adjMineCount; 
+      setMinesCount(){
+      let cnt = this.adjMineCount();
+      if(cnt != 0){
+        this.content = cnt;
+        this.isEmpty = false;
 
-
-
-      
-      
-     }
+      } else {
+        this.content = "";
+        this.isEmpty = true;
+      }
     
-
-   
+    }
   }  
-
-
-	/*----- functions -----*/
+    /*----- functions -----*/
     init();
     //Initialize all state, then call render();
     function init(){
@@ -109,9 +113,15 @@
     
     function render(){
 
+
+
     }
 
 
+   function handleClick(evt){
 
+
+
+   }
       
      
