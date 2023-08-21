@@ -17,21 +17,60 @@
 
   /*------Class----------*/
   class Cell{
-    constructor(row, col, isMined){
-      this.row = row
-      this.col = col
+    constructor(row, col, isMined, isRevealed){
+      this.row = row;
+      this.col = col;
       this.isMined = isMined // boolean to determine if cell is mined or not
       this.content = ''
+      this.isRevealed = isRevealed // boolean to determine if cell is revealed or not
     }
 
     mined(){
-      return this.isMined
+      return this.isMined;
     }
 
     placeMine(){
-      this.isMined = true
-      this.content = `<img src='images/bomb.png'/>`
+      this.isMined = true;
+      this.content = `<img src='images/bomb.png'/>`;
     }
+
+    mineReveled(){
+      return this.isRevealed;
+    }
+    
+    adjMineCount(){
+      let neighbors = [];
+      let count = 0;
+      if(!this.isMined){
+        if(gridObjArray[this.row][this.col+1]) neighbors.push(gridObjArray[this.row][this.col+1])
+        if(gridObjArray[this.row+1] && gridObjArray[this.row+1][this.col+1]) neighbors.push(gridObjArray[this.row+1][this.col+1])
+        if(gridObjArray[this.row+1] && gridObjArray[this.row+1][this.col]) neighbors.push(gridObjArray[this.row+1][this.col])
+        if(gridObjArray[this.row+1] && gridObjArray[this.row+1][this.col-1]) neighbors.push(gridObjArray[this.row+1][this.col-1])
+        if(gridObjArray[this.row][this.col-1]) neighbors.push(gridObjArray[this.row][this.col-1])
+        if(gridObjArray[this.row+1] && gridObjArray[this.row-1][this.col-1]) neighbors.push(gridObjArray[this.row-1][this.col-1])
+        if(gridObjArray[this.row+1] && gridObjArray[this.row-1][this.col]) neighbors.push(gridObjArray[this.row-1][this.col])
+        if(gridObjArray[this.row+1] && gridObjArray[this.row-1][this.col+1]) neighbors.push(gridObjArray[this.row-1][this.col+1])
+      }
+      neighbors.forEach(function(neighbor){
+        if(neighbors.mined()){
+          count++;
+        }
+       return this.adjMineCount = count;
+        
+      })
+    }           
+
+     setMinesCount(){
+      let cnt = this.adjMineCount; 
+
+
+
+      
+      
+     }
+    
+
+   
   }  
 
 
@@ -43,7 +82,7 @@
       for(let i = 0;i < ROW_SIZE;i++){
         gridObjArray[i] = []
         for(let j =0;j < COL_SIZE;j++){
-          gridObjArray[i][j] = new Cell(i, j, false);
+          gridObjArray[i][j] = new Cell(i, j, false, false);
         }
       }
       setMines();
@@ -67,6 +106,11 @@
 
       }
     }
+    
+    function render(){
+
+    }
+
 
 
       
