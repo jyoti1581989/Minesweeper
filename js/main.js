@@ -74,10 +74,9 @@
         if(neighbor.mined()){
           count++;
         }
-       return count;
-        
-      })
-      
+       
+        })
+      return count;
     }  
       // set mine count into the cell 
 
@@ -116,7 +115,7 @@
       }
       setMines();
       setMineCounts();
-      render();
+     
     }
     //Click event to click handle to stepping on mine ,number or empty cell 
     function handleClick(event){
@@ -131,8 +130,7 @@
       console.log("hello")
       console.log(openCellCount);
       if (openCellCount < GRID_SIZE - MINE_COUNT) {
-        console.log(uiCellElement)
-        console.log(cellRow+":"+cellCol)
+        
         console.log(gridObjArray[cellRow][cellCol]);
         if (gridObjArray[cellRow][cellCol].mined()) {
           renderCellContent(cellRow, cellCol);// steped on mine
@@ -185,13 +183,14 @@
     // reset game to its initial state
 
     function resetGame(){
-     
+      enableGrid()
      resetUIGrid();
       for(let i = 0; i<ROW_SIZE; i++){
         for(j = 0; j<COL_SIZE; j++){
           gridObjArray[i][j].reset();
         }
       }
+      clearMessage();
       setMines();
       setMineCounts();
       openCellCount = 0;
@@ -201,6 +200,9 @@
         el.innerHTML = null;
         el.innerText = "";
       });
+    }
+    function clearMessage() {
+      document.querySelector("#message").style.display = "none";
     }
     
     function render(){
@@ -229,7 +231,12 @@
         
         }
     }
-
+      function disableGrid() {
+      uiGrid.style.pointerEvents = "none";
+      }
+      function enableGrid() {
+        uiGrid.style.pointerEvents = "auto";
+      }
    
 
 

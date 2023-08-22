@@ -32,12 +32,19 @@
 #board > div {
   border: 0.1vmin solid grey;
   box-shadow: 1px 2px 2px grey;
+  text-align: center;
 }
 
 #board > div:hover {
   transform: scale(1.1);
   transition: transform 150ms ease-in;
   background-color: lightgrey;
+}
+#message {
+  color: black;
+  padding: 2vmin;
+  margin-top: 2vmin;
+  border-radius:10px;
 }
 
 button {
