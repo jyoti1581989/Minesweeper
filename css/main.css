@@ -17,6 +17,10 @@
     color: grey;
     font-size: 3vmin;
   }
+  img{
+    height: 100%;
+    width: 100%;
+  }
 #board{
     display: grid;
     grid-template-columns: repeat(8, 4vmin);

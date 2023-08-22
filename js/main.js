@@ -3,17 +3,26 @@
     const COL_SIZE = 8;
     const GRID_SIZE = ROW_SIZE*COL_SIZE;
     const MINE_COUNT = (GRID_SIZE)/5;
+    const GAME_OVER_TEXT = "Stepped on Mine..Game over! Click reset to start again!";
+    const GAME_WON_TEXT = "You Won! Press reset to play again!";
 	/*----- state variables -----*/
    let gridObjArray ;
+   let openCellCount;
   
    
   /*----- cached elements  -----*/
   const uiGrid = document.getElementById('board');
+  const resetButton = document.getElementById("reset-game");
 
+  // convert nodeList into JS Array to be able to use indexOf method on it
+  const gridCells = [...document.querySelectorAll("#board > div")];
 
 	/*----- event listeners -----*/
-  //  let boardCells = getElementById("board");
-  //  boardCells.addEventListener(click,handleClick);
+  uiGrid.addEventListener("click",handleClick);
+  // reset game with differently placed set of mines
+   resetButton.addEventListener("click", function () {
+  resetGame();
+  });
 
 
   /*------Class----------*/
@@ -43,6 +52,11 @@
     getContent(){
       return this.content;
     }
+    empty() {
+      return this.isEmpty;
+    }
+
+   //Calculate mine count in neighboring cells
     adjMineCount(){
       let neighbors = [];
       let count = 0;
@@ -63,7 +77,7 @@
        return count;
         
       })
-      console.log(count)
+      
     }  
       // set mine count into the cell 
 
@@ -77,19 +91,23 @@
           this.content = "";
         }
       }
+
+      reset(){
+        this.Mined = false;
+        this.isEmpty = true;
+        this.isVisited = false;
+        this.isRevealed = false;
+        this.content = "";
+      }
     
     
   }
-
-    //Calculate mine count in neighboring cells
-    
-    
-    
     /*----- functions -----*/
     init();
     //Initialize all state, then call render();
     function init(){
       gridObjArray = [];
+      openCellCount = 0;
       for(let i = 0;i < ROW_SIZE;i++){
         gridObjArray[i] = []
         for(let j =0;j < COL_SIZE;j++){
@@ -97,9 +115,43 @@
         }
       }
       setMines();
-      setMineCts();
+      setMineCounts();
       render();
     }
+    //Click event to click handle to stepping on mine ,number or empty cell 
+    function handleClick(event){
+      event.preventDefault();
+      let uiCellElement = event.target;
+      if (uiCellElement.tagName == "IMG") {
+        uiCellElement = event.target.parentElement; // get surrounding div if image tag is present inside.
+      }
+      const cellIdx = gridCells.indexOf(uiCellElement);
+      const cellRow = Math.floor(cellIdx / ROW_SIZE);
+      const cellCol = cellIdx % COL_SIZE;
+      console.log("hello")
+      console.log(openCellCount);
+      if (openCellCount < GRID_SIZE - MINE_COUNT) {
+        console.log(uiCellElement)
+        console.log(cellRow+":"+cellCol)
+        console.log(gridObjArray[cellRow][cellCol]);
+        if (gridObjArray[cellRow][cellCol].mined()) {
+          renderCellContent(cellRow, cellCol);// steped on mine
+        } else if (gridObjArray[cellRow][cellCol].empty()) {
+          // flood the grid
+          floodFill(cellRow, cellCol);
+        } else {
+          // uiGrid gets the mineCount from grid array
+          renderCellContent(cellRow, cellCol);
+          openCellCount++;
+        }
+      }
+      if (openCellCount >= GRID_SIZE - MINE_COUNT) {
+        // Display you won the game press reset to play again!
+        renderMessage(GAME_WON_TEXT);
+      }
+    };
+
+
     // Places mines(20% of grid size) in the grid 
 
     function setMines(){
@@ -117,8 +169,10 @@
         }
 
       }
-    }
-     function setMineCts(){
+    } 
+    
+     //set mine count into each cell
+     function setMineCounts(){
       for(let i=0; i<ROW_SIZE; i++){
          for(let j=0; j<COL_SIZE; j++){
           if (!gridObjArray[i][j].mined()) {
@@ -127,22 +181,60 @@
           }
         }
       }
+    }
+    // reset game to its initial state
 
-
+    function resetGame(){
+     
+     resetUIGrid();
+      for(let i = 0; i<ROW_SIZE; i++){
+        for(j = 0; j<COL_SIZE; j++){
+          gridObjArray[i][j].reset();
+        }
+      }
+      setMines();
+      setMineCounts();
+      openCellCount = 0;
+    }
+    function resetUIGrid() {
+      gridCells.forEach(function (el) {
+        el.innerHTML = null;
+        el.innerText = "";
+      });
     }
     
     function render(){
-    // renderMessage();
-    
-
-
+      // renderMessage();
+      
+  
+  
+    }
+  
+    function renderMessage(message) {
+      const el = document.querySelector("#message");
+      el.style.display = "block";
+      el.style.backgroundColor = "red";
+      el.innerText = message;
+    }
+    function renderCellContent(cellRow, cellCol) {
+      let uiCell = gridCells[cellRow * ROW_SIZE + cellCol];
+      let cellObj = gridObjArray[cellRow][cellCol];
+        if (cellObj.mined()) {
+          uiCell.innerHTML = cellObj.getContent();
+          // Display Game is over
+          renderMessage(GAME_OVER_TEXT);
+          disableGrid();
+        } else {
+          uiCell.innerText = cellObj.getContent();
+        
+        }
     }
 
-
-   function handleClick(evt){
-
+   
 
 
-   }
+
+   
       
-     
+   
+   
