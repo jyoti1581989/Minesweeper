@@ -18,12 +18,13 @@
 
   /*------Class----------*/
   class Cell{
-    constructor(row, col, isMined, isRevealed){
+    constructor(row, col, isMined, isRevealed, isEmpty){
       this.row = row;
       this.col = col;
       this.isMined = isMined // boolean to determine if cell is mined or not
       this.content = ''
       this.isRevealed = isRevealed // boolean to determine if cell is revealed or not
+      this.isEmpty = isEmpty; // boolean to determine if cell is empty or not
     }
 
     mined(){
@@ -58,26 +59,24 @@
         if(neighbors.mined()){
           count++;
         }
-       return this.adjMineCount = count;
+       return count;
         
       })
       console.log(count)
     }  
       // set mine count into the cell 
 
-      setMinesCount(){
-      let cnt = this.adjMineCount();
-      if(cnt != 0){
-        this.content = cnt;
-        this.isEmpty = false;
-
-      } else {
-        this.content = "";
-        this.isEmpty = true;
+      setMineCount() {
+        let cnt = this.calcAdjMineCount();
+        if (cnt != 0) {
+          this.content = cnt;
+          this.isEmpty = false;
+        } else {
+          this.isEmpty = true;
+          this.content = "";
+        }
       }
-    
     }
-  }  
     /*----- functions -----*/
     init();
     //Initialize all state, then call render();
@@ -86,10 +85,11 @@
       for(let i = 0;i < ROW_SIZE;i++){
         gridObjArray[i] = []
         for(let j =0;j < COL_SIZE;j++){
-          gridObjArray[i][j] = new Cell(i, j, false, false);
+          gridObjArray[i][j] = new Cell(i, j, false, false, true);
         }
       }
       setMines();
+      setMineCts();
       render();
     }
     // Places mines(20% of grid size) in the grid 
@@ -109,6 +109,18 @@
         }
 
       }
+    }
+     function setMineCts(){
+      for(let i=0; i<ROW_SIZE; i++){
+         for(let j=0; j<COL_SIZE; j++){
+          if (!gridObjArray[i][j].mined()) {
+            gridObjArray[i][j].setMineCount();
+            
+          }
+        }
+      }
+
+
     }
     
     function render(){
