@@ -36,12 +36,13 @@
       this.content = `<img src='images/bomb.png'/>`;
     }
 
-    mineReveled(){
+    revealed(){
       return this.isRevealed;
     }
 
-     //Calculate mine count in neighboring cells
-    
+    getContent(){
+      return this.content;
+    }
     adjMineCount(){
       let neighbors = [];
       let count = 0;
@@ -51,12 +52,12 @@
         if(gridObjArray[this.row+1] && gridObjArray[this.row+1][this.col]) neighbors.push(gridObjArray[this.row+1][this.col])
         if(gridObjArray[this.row+1] && gridObjArray[this.row+1][this.col-1]) neighbors.push(gridObjArray[this.row+1][this.col-1])
         if(gridObjArray[this.row][this.col-1]) neighbors.push(gridObjArray[this.row][this.col-1])
-        if(gridObjArray[this.row+1] && gridObjArray[this.row-1][this.col-1]) neighbors.push(gridObjArray[this.row-1][this.col-1])
-        if(gridObjArray[this.row+1] && gridObjArray[this.row-1][this.col]) neighbors.push(gridObjArray[this.row-1][this.col])
-        if(gridObjArray[this.row+1] && gridObjArray[this.row-1][this.col+1]) neighbors.push(gridObjArray[this.row-1][this.col+1])
+        if(gridObjArray[this.row-1] && gridObjArray[this.row-1][this.col-1]) neighbors.push(gridObjArray[this.row-1][this.col-1])
+        if(gridObjArray[this.row-1] && gridObjArray[this.row-1][this.col]) neighbors.push(gridObjArray[this.row-1][this.col])
+        if(gridObjArray[this.row-1] && gridObjArray[this.row-1][this.col+1]) neighbors.push(gridObjArray[this.row-1][this.col+1])
       }
       neighbors.forEach(function(neighbor){
-        if(neighbors.mined()){
+        if(neighbor.mined()){
           count++;
         }
        return count;
@@ -67,7 +68,7 @@
       // set mine count into the cell 
 
       setMineCount() {
-        let cnt = this.calcAdjMineCount();
+        let cnt = this.adjMineCount();
         if (cnt != 0) {
           this.content = cnt;
           this.isEmpty = false;
@@ -76,7 +77,14 @@
           this.content = "";
         }
       }
-    }
+    
+    
+  }
+
+    //Calculate mine count in neighboring cells
+    
+    
+    
     /*----- functions -----*/
     init();
     //Initialize all state, then call render();
@@ -124,7 +132,8 @@
     }
     
     function render(){
-
+    // renderMessage();
+    
 
 
     }
