@@ -1,11 +1,10 @@
 # Minesweeper
-# <Your Project's Title>
 A description of your game. Background info of the game is a nice touch.
 
 # Screenshot
 
-<img src=`<img src='images/bomb.png'/>
-<img src="url to your image on imgur">
+<img src='images/bomb.png'/>
+<img src="https://i.imgur.com/WBASE8g.png">
 
 # Technologies Used
 
