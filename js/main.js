@@ -5,6 +5,8 @@ const GRID_SIZE = ROW_SIZE * COL_SIZE
 const MINE_COUNT = Math.floor(GRID_SIZE / 5)
 const GAME_OVER_TEXT = "Stepped on Mine..  GAME OVER!     Click reset to start again!"
 const GAME_WON_TEXT = "You WON!  Press reset to play again!"
+const BOMB_AUDIO = "https://cdn.freesound.org/previews/155/155235_2793595-lq.mp3"
+const WINNING_AUDIO = "https://cdn.freesound.org/previews/354/354038_6549161-lq.mp3"
 // directions to circle around the cell of the grid array
 const cellDirections = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
 /*----- state variables -----*/
@@ -184,6 +186,7 @@ function handleClick(event) {
     gameWon = true
     // Display you won the game press reset to play again!
     renderMessage(GAME_WON_TEXT)
+    playAudio(WINNING_AUDIO)
   }
 }
 
@@ -275,6 +278,8 @@ function renderCellContent(cellRow, cellCol) {
   let cellObj = gridObjArray[cellRow][cellCol]
   if (!cellObj.flagged()) {
     if (cellObj.mined()) {
+      // play bomb audio
+      playAudio(BOMB_AUDIO)
       uiCell.innerHTML = cellObj.getContent()
       // Display Game is over
       renderMessage(GAME_OVER_TEXT)
@@ -319,6 +324,10 @@ function disableGrid() {
 
 function enableGrid() {
   uiGrid.style.pointerEvents = "auto"
+}
+
+function playAudio(url) {
+  new Audio(url).play()
 }
 
 
