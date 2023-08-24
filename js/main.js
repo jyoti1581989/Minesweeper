@@ -57,12 +57,15 @@ class Cell {
   getContent() {
     return this.content
   }
+
   setEmpty() {
     this.isEmpty = true
   }
+
   empty() {
     return this.isEmpty
   }
+
   setVisited() {
     this.isVisited = true
   }
@@ -119,10 +122,9 @@ class Cell {
       }
     })
     return count.toString()
-
   }
-  // set mine count into the cell 
 
+  // set mine count into the cell 
   setMineCount() {
     let cnt = this.adjMineCount()
     if (cnt != "0") {
@@ -132,7 +134,6 @@ class Cell {
     } else {
       this.isEmpty = true
       this.content = ""
-
     }
   }
 
@@ -145,7 +146,6 @@ class Cell {
     this.nonFlagContent = ""
     this.isFlagged = false
   }
-
 }
 /*----- functions -----*/
 init()
@@ -161,8 +161,8 @@ function init() {
   }
   setMines()
   setMineCounts()
-
 }
+
 //Click event to click handle to stepping on mine ,number or empty cell 
 function handleClick(event) {
   event.preventDefault()
@@ -170,23 +170,25 @@ function handleClick(event) {
   if (uiCellElement.tagName == "IMG") {
     uiCellElement = event.target.parentElement // get surrounding div if image tag is present inside.
   }
-  const cellIdx = gridCells.indexOf(uiCellElement)
-  const cellRow = Math.floor(cellIdx / ROW_SIZE)
-  const cellCol = cellIdx % COL_SIZE
-  if (openCellCount < GRID_SIZE - MINE_COUNT) {
-    if (gridObjArray[cellRow][cellCol].empty()) {
-      // flood the grid
-      floodFill(cellRow, cellCol)
-    } else {
-      // ui grid cell is mined or have mineCount, reveal it.
-      gridObjArray[cellRow][cellCol].setRevealed()
+  if (uiCellElement.tagName == "DIV") {
+    const cellIdx = gridCells.indexOf(uiCellElement)
+    const cellRow = Math.floor(cellIdx / ROW_SIZE)
+    const cellCol = cellIdx % COL_SIZE
+    if (openCellCount < GRID_SIZE - MINE_COUNT) {
+      if (gridObjArray[cellRow][cellCol].empty()) {
+        // flood the grid
+        floodFill(cellRow, cellCol)
+      } else {
+        // ui grid cell is mined or have mineCount, reveal it.
+        gridObjArray[cellRow][cellCol].setRevealed()
+      }
     }
-  }
-  if (openCellCount >= GRID_SIZE - MINE_COUNT) {
-    gameWon = true
-    // Display you won the game press reset to play again!
-    renderMessage(GAME_WON_TEXT)
-    playAudio(WINNING_AUDIO)
+    if (openCellCount >= GRID_SIZE - MINE_COUNT) {
+      gameWon = true
+      // Display you won the game press reset to play again!
+      renderMessage(GAME_WON_TEXT)
+      playAudio(WINNING_AUDIO)
+    }
   }
 }
 
@@ -243,7 +245,6 @@ function setMines() {
     if (!gridObjArray[r][c].mined()) {
       gridObjArray[r][c].placeMine()
       mineCnt--
-
     }
   }
 }
@@ -271,6 +272,7 @@ function resetGame() {
   setMines()
   setMineCounts()
   openCellCount = 0
+
 }
 
 function renderCellContent(cellRow, cellCol) {
@@ -290,6 +292,7 @@ function renderCellContent(cellRow, cellCol) {
         uiCell.style.backgroundColor = "lightgrey"
       }
     }
+    uiCell.style.pointerEvents = "none"
   }
 }
 
@@ -311,6 +314,7 @@ function resetUIGrid() {
     el.innerHTML = null
     el.innerText = ""
     el.style.backgroundColor = "white"
+    el.style.pointerEvents = "auto"
   })
 }
 
@@ -320,6 +324,7 @@ function clearMessage() {
 
 function disableGrid() {
   uiGrid.style.pointerEvents = "none"
+  gridCells.forEach((cell) => cell.style.pointerEvents = "none")
 }
 
 function enableGrid() {

@@ -8,9 +8,9 @@ To win a round of Minesweeper, you must identify every square on the board that 
 
 # Screenshot
 
-<img src="https://imgur.com/mEEXaPw.png">
-<img src="https://imgur.com/EJzoOkw.png">
-<img src="https://imgur.com/vOpy2jL.png">
+<img src="https://imgur.com/h2zPdYS">
+<img src="https://imgur.com/THBabUw">
+<img src="https://imgur.com/THBabUw">
 <img src="https://imgur.com/DQMHf90.png">
 
 # Technologies Used
@@ -22,7 +22,7 @@ To win a round of Minesweeper, you must identify every square on the board that 
 
 # Getting Started
 
-[Click to Play Minesweeper] https://jyoti1581989.github.io/Minesweeper/
+[Click to Play Minesweeper](https://jyoti1581989.github.io/Minesweeper/)
 
 # Next Steps
 Future enhancements
