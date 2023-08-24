@@ -6,12 +6,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 4px;
+
 }
 
 header {
   font-size: 4vmin;
   color: darkgrey;
   letter-spacing: 4vmin;
+  margin-top: 50px;
+  margin-bottom: 25px;
 }
 
 h1 {
@@ -29,7 +33,6 @@ img {
   grid-template-columns: repeat(8, 4vmin);
   grid-template-rows: repeat(8, 4vmin);
   gap: 0.2vmin;
-
 }
 
 #board>div {
@@ -49,7 +52,7 @@ img {
   padding: 2vmin;
   margin-top: 3vmin;
   border-radius: 10px;
-  font-size: larger;
+  font-size: 25px;
 }
 
 button {

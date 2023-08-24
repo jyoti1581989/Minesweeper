@@ -299,7 +299,7 @@ function renderFlag(cellRow, cellCol) {
   let uiCell = gridCells[cellRow * ROW_SIZE + cellCol]
   let cellObj = gridObjArray[cellRow][cellCol]
   uiCell.innerHTML = cellObj.flagged() ? cellObj.getContent() : null
-  console.log(uiCell)
+
 }
 function resetUIGrid() {
   gridCells.forEach(function (el) {
