@@ -2,9 +2,9 @@
 const ROW_SIZE = 8
 const COL_SIZE = 8
 const GRID_SIZE = ROW_SIZE * COL_SIZE
-const MINE_COUNT = (GRID_SIZE) / 5
-const GAME_OVER_TEXT = "Stepped on Mine..Game over! Click reset to start again!"
-const GAME_WON_TEXT = "You Won! Press reset to play again!"
+const MINE_COUNT = Math.floor(GRID_SIZE / 5)
+const GAME_OVER_TEXT = "Stepped on Mine..  GAME OVER!     Click reset to start again!"
+const GAME_WON_TEXT = "You WON!  Press reset to play again!"
 // directions to circle around the cell of the grid array
 const cellDirections = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
 /*----- state variables -----*/
@@ -27,6 +27,7 @@ resetButton.addEventListener("click", function () {
 })
 // Right click with flag
 uiGrid.addEventListener("contextmenu", handleRightClick)
+
 /*------Class----------*/
 class Cell {
   constructor(row, col, isMined, isEmpty, isVisited, isRevealed, isFlagged) {
@@ -72,7 +73,9 @@ class Cell {
     if (!this.isRevealed) {
       this.isRevealed = true
       renderCellContent(this.row, this.col)
-      openCellCount++
+      if (!this.isMined) {
+        openCellCount++
+      }
     }
     console.log(openCellCount)
   }
@@ -289,7 +292,7 @@ function renderCellContent(cellRow, cellCol) {
 function renderMessage(message) {
   const el = document.querySelector("#message")
   el.style.display = "block"
-  el.style.backgroundColor = gameWon ? "#AEF1BD" : "#EC5A5A"
+  el.style.backgroundColor = gameWon ? "green" : "red"
   el.innerText = message
 }
 function renderFlag(cellRow, cellCol) {

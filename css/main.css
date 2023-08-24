@@ -11,7 +11,7 @@ body {
 header {
   font-size: 4vmin;
   color: darkgrey;
-  letter-spacing: 1vmin;
+  letter-spacing: 4vmin;
 }
 
 h1 {
@@ -36,6 +36,7 @@ img {
   border: 0.1vmin solid grey;
   box-shadow: 1px 2px 2px grey;
   text-align: center;
+  font-size: 23px;
 }
 
 #board>div:hover {
@@ -44,10 +45,11 @@ img {
 }
 
 #message {
-  color: black;
+  color: rgb(240, 235, 235);
   padding: 2vmin;
-  margin-top: 2vmin;
+  margin-top: 3vmin;
   border-radius: 10px;
+  font-size: larger;
 }
 
 button {
