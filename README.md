@@ -7,6 +7,8 @@ To win a round of Minesweeper, you must identify every square on the board that 
 
 
 # Screenshot
+Project wirefram
+<img src ="https://i.imgur.com/10cRpLL.png">
 Player will be initially presented with below grid
 <img src="https://i.imgur.com/h2zPdYS.png">
 If you click on empty square, it will open up all connected empty squares along with mine count boundary as shown below.
