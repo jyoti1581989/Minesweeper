@@ -3,11 +3,11 @@ const ROW_SIZE = 8
 const COL_SIZE = 8
 const GRID_SIZE = ROW_SIZE * COL_SIZE
 const MINE_COUNT = Math.floor(GRID_SIZE / 5)
-const GAME_OVER_TEXT = "Stepped on Mine..  GAME OVER!     Click reset to start again!"
+const GAME_OVER_TEXT = "Stepped on Mine..  GAME OVER!   Click reset to start again!"
 const GAME_WON_TEXT = "You WON!  Press reset to play again!"
 const BOMB_AUDIO = "https://cdn.freesound.org/previews/155/155235_2793595-lq.mp3"
 const WINNING_AUDIO = "https://cdn.freesound.org/previews/354/354038_6549161-lq.mp3"
-// directions to circle around the cell of the grid array
+// directions to circle around the cell in eight directions of the grid array
 const cellDirections = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
 /*----- state variables -----*/
 let gridObjArray
@@ -16,7 +16,8 @@ let gameWon // boolean represent winning or losing
 /*----- cached elements  -----*/
 const uiGrid = document.getElementById('board')
 const resetButton = document.getElementById("reset-game")
-
+const musicCheckbox = document.getElementById("music")
+const audioControl = document.getElementById("audio")
 // convert nodeList into JS Array to be able to use indexOf method on it
 const gridCells = [...document.querySelectorAll("#board > div")]
 
@@ -29,8 +30,9 @@ resetButton.addEventListener("click", function () {
 })
 // Right click with flag
 uiGrid.addEventListener("contextmenu", handleRightClick)
-
+musicCheckbox.addEventListener("change", handleBGMusic)
 /*------Class----------*/
+// Class holds state of each cell in the Grid
 class Cell {
   constructor(row, col, isMined, isEmpty, isVisited, isRevealed, isFlagged) {
     this.row = row
@@ -82,7 +84,6 @@ class Cell {
         openCellCount++
       }
     }
-    console.log(openCellCount)
   }
 
   revealed() {
@@ -149,7 +150,7 @@ class Cell {
 }
 /*----- functions -----*/
 init()
-//Initialize all state, then call render();
+//Initialize all state
 function init() {
   gridObjArray = []
   openCellCount = 0
@@ -161,6 +162,17 @@ function init() {
   }
   setMines()
   setMineCounts()
+}
+
+/* handles background music settings based on checkbox checked */
+function handleBGMusic(event) {
+  audioControl.volume = 0.2
+  audioControl.loop = true
+  if (event.target.checked) {
+    audioControl.play()
+  } else {
+    audioControl.pause()
+  }
 }
 
 //Click event to click handle to stepping on mine ,number or empty cell 
@@ -193,6 +205,9 @@ function handleClick(event) {
 }
 
 // using flood feature
+/** Recursively seeks adjacent empty cells and reveals them. 
+ * Once function finds non-empty cell it reveals it and then returns
+ * */
 function floodFill(row, col) {
   let currCell = gridObjArray[row][col]
   // set grid cell to be revealed if its not already
@@ -217,7 +232,9 @@ function floodFill(row, col) {
   }
 }
 
+/** handles right click for flagging cells */
 function handleRightClick(event) {
+  // preventDefault prevents event propagation to parent elements
   event.preventDefault()
   if (event.button == 2) {
     let uiCellElement = event.target
@@ -234,6 +251,7 @@ function handleRightClick(event) {
 }
 
 // Places mines(20% of grid size) in the grid 
+/** randomly finds a cell from the grid to place mine, calculates row and column based on random number returned */
 function setMines() {
   let mineCnt = MINE_COUNT
   let r = 0, c = 0
@@ -274,7 +292,7 @@ function resetGame() {
   openCellCount = 0
 
 }
-
+/** render function to show cell content either a mine or mine Count*/
 function renderCellContent(cellRow, cellCol) {
   let uiCell = gridCells[cellRow * ROW_SIZE + cellCol]
   let cellObj = gridObjArray[cellRow][cellCol]
@@ -309,6 +327,7 @@ function renderFlag(cellRow, cellCol) {
   uiCell.innerHTML = cellObj.flagged() ? cellObj.getContent() : null
 
 }
+/** Resets Grid in DOM to its initial state */
 function resetUIGrid() {
   gridCells.forEach(function (el) {
     el.innerHTML = null
@@ -318,23 +337,29 @@ function resetUIGrid() {
   })
 }
 
+/** clears winning or losing message from previous play */
 function clearMessage() {
   document.querySelector("#message").style.display = "none"
 }
 
+/** disables DOM grid for any pointer events like hover or click */
 function disableGrid() {
   uiGrid.style.pointerEvents = "none"
   gridCells.forEach((cell) => cell.style.pointerEvents = "none")
 }
 
+/** Enables DOM grid for pointer events */
 function enableGrid() {
   uiGrid.style.pointerEvents = "auto"
 }
 
-function playAudio(url) {
-  new Audio(url).play()
+/** plays audio on user interaction with UI */
+function playAudio(url, loop = false) {
+  const audio = new Audio(url)
+  audio.volume = 0.2
+  audio.loop = loop
+  audio.play()
 }
-
 
 
 

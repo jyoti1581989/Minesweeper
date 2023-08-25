@@ -7,7 +7,13 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 4px;
+}
 
+
+.bgmusic {
+  text-align: center;
+  position: absolute;
+  bottom: 0;
 }
 
 header {
