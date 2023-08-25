@@ -7,10 +7,13 @@ To win a round of Minesweeper, you must identify every square on the board that 
 
 
 # Screenshot
-
+Player will be initially presented with below grid
 <img src="https://i.imgur.com/h2zPdYS.png">
+If you click on empty square, it will open up all connected empty squares along with mine count boundary as shown below.
 <img src="https://i.imgur.com/THBabUw.png">
+If you identify all mines and open up all 'safe' squares you win the game
 <img src="https://i.imgur.com/VES2WZi.png">
+If you click on cell with a mine, your game is over.
 <img src="https://i.imgur.com/6dP4L0s.png">
 
 # Technologies Used

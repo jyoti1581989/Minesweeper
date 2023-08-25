@@ -20,10 +20,8 @@ const musicCheckbox = document.getElementById("music")
 const audioControl = document.getElementById("audio")
 // convert nodeList into JS Array to be able to use indexOf method on it
 const gridCells = [...document.querySelectorAll("#board > div")]
-
 /*----- event listeners -----*/
 uiGrid.addEventListener("click", handleClick)
-
 // reset game with differently placed set of mines
 resetButton.addEventListener("click", function () {
   resetGame()
@@ -148,6 +146,7 @@ class Cell {
     this.isFlagged = false
   }
 }
+
 /*----- functions -----*/
 init()
 //Initialize all state
@@ -277,6 +276,7 @@ function setMineCounts() {
     }
   }
 }
+
 // reset game to its initial state
 function resetGame() {
   enableGrid()
@@ -292,6 +292,7 @@ function resetGame() {
   openCellCount = 0
 
 }
+
 /** render function to show cell content either a mine or mine Count*/
 function renderCellContent(cellRow, cellCol) {
   let uiCell = gridCells[cellRow * ROW_SIZE + cellCol]
@@ -321,12 +322,14 @@ function renderMessage(message) {
   el.style.backgroundColor = gameWon ? "green" : "red"
   el.innerText = message
 }
+
 function renderFlag(cellRow, cellCol) {
   let uiCell = gridCells[cellRow * ROW_SIZE + cellCol]
   let cellObj = gridObjArray[cellRow][cellCol]
   uiCell.innerHTML = cellObj.flagged() ? cellObj.getContent() : null
 
 }
+
 /** Resets Grid in DOM to its initial state */
 function resetUIGrid() {
   gridCells.forEach(function (el) {
