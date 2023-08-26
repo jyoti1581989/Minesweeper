@@ -89,7 +89,7 @@ function handleClick(event) {
       // Display you won the game press reset to play again!
       renderMessage(GAME_WON_TEXT)
       playAudio(WINNING_AUDIO)
-      toggleResetButtonVisibility()
+      resetButtonVisibility('visible')
     }
   }
 }
@@ -181,7 +181,7 @@ function resetGame() {
   setMines()
   setMineCounts()
   Cell.openCellCount = 0
-  toggleResetButtonVisibility()
+  resetButtonVisibility('hidden')
 }
 
 /** render function to show cell content either a mine or mine Count*/
@@ -197,7 +197,7 @@ function renderCellContent(cellRow, cellCol) {
       // Display Game is over
       renderMessage(GAME_OVER_TEXT)
       disableGrid()
-      toggleResetButtonVisibility()
+      resetButtonVisibility('visible')
     } else {
       uiCell.innerText = cellObj.getContent()
       if (cellObj.empty()) {
@@ -261,10 +261,9 @@ function enableGrid() {
 }
 
 /** toggles visibility of reset button */
-function toggleResetButtonVisibility() {
+function resetButtonVisibility(visibility) {
   const resetButton = document.querySelector('.reset-button')
-  const visibility = resetButton.style.visibility
-  resetButton.style.visibility = visibility == 'visible' ? 'hidden' : 'visible'
+  resetButton.style.visibility = visibility
 }
 
 /** plays audio on user interaction with UI */
