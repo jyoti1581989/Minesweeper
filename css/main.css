@@ -16,6 +16,10 @@ body {
   bottom: 0;
 }
 
+.reset-button {
+  visibility: hidden;
+}
+
 header {
   font-size: 4vmin;
   color: darkgrey;
