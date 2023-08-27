@@ -7,7 +7,7 @@ export default class Cell {
         this.isRevealed = isRevealed // boolean to determine if cell is revealed or not
         this.isVisited = isVisited // boolean to determine if cell was visited by flood function
         this.isEmpty = isEmpty // boolean to determine if cell is empty or not
-        this.noFlagContent = ""
+        this.nonFlagContent = ""
         this.isFlagged = isFlagged
     }
 
@@ -24,6 +24,7 @@ export default class Cell {
         this.isMined = true
         this.isEmpty = false
         this.content = `<img src='images/bomb.png'/>`
+        this.nonFlagContent = `<img src='images/bomb.png'/>`
     }
 
     getContent() {
@@ -100,11 +101,13 @@ export default class Cell {
         let cnt = this.adjMineCount()
         if (cnt != "0") {
             this.content = cnt
+            this.nonFlagContent = cnt
             this.isEmpty = false
 
         } else {
             this.isEmpty = true
             this.content = ""
+            this.nonFlagContent = ""
         }
     }
 
